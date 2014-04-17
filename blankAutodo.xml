@@ -1,0 +1,9 @@
+<autodo>
+	<user name="leland" location="all" currentTodo="0"/>
+	<todo title="DO WHAT YOU WANT!" duedate="" active="true" id="0">
+		<infobox type="notes">
+			<note text="There is always something to do!"/>
+		</infobox>
+	</todo>
+</autodo>
+

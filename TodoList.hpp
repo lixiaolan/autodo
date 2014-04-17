@@ -1,0 +1,77 @@
+#ifndef TODO_LIST
+#define TODO_LIST
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <map>
+#include <fstream>
+
+#include <algorithm>    // std::random_shuffle
+#include <ctime>        // std::time
+#include <cstdlib>      // std::rand, std::srand
+
+#include "XMLCursor.hpp"
+
+#include "rapidxml.hpp"
+#include "rapidxml_utils.hpp" // for parsing xml file
+#include "rapidxml_print.hpp"
+
+using namespace std;
+using namespace rapidxml;
+
+void CopyBlankAutodoFile(string fileName);
+
+string CharToString(char * in);
+
+class Todo{
+private:
+  // This does not contain "active" or "id" since those are list qualities.
+  string title;
+  string duedate;
+  vector<string> notes;
+public:
+  Todo(string tit, string due);
+  void AddNote(string note);
+  void BuildXml(XmlCursor *);
+};
+
+class TodoList {
+private:
+  // Strings to store file names.
+  string fileName;
+  string userName;
+  xml_document<> autodoList;
+  xml_document<> *autodoListP;
+  xml_node<> *user;
+  XmlCursor cursor;
+  // This reads the Todo List and fixes all IDs
+  void RelodeList(string);
+  map<int, int> IDMap;
+  //  /*Pinter to active todo*/ activeTodo;  
+public:
+  TodoList(string, string);  // Takes in file name and loads it
+  map<int, int> CleanList();
+  xml_node<> * GetUser(string u);
+
+  void ChooseNewTodo();
+  void LoadUser(string);
+  void NewTodo();
+  void AddComment();
+  void WriteFile();
+  void DeactivateCurrent();
+
+  void SetUserCurrent(int in);
+  int GetUserCurrent();
+
+  void PrintCurrent();
+  void PrintTodoByID(string id);
+  void PrintAutodoList();
+  void PrintTodo(xml_node<> *todo);
+  void PrintInfoBox(xml_node<> *infobox);
+
+  void AddTodo();
+};
+
+#endif
