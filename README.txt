@@ -7,4 +7,13 @@ To install autodo, follow these instructions:
 5.) run make.
 6.) Run ./autodo
 
-Enjoy!
+USAGE:
+
+autodo    : show current todo
+autodo -n : next todo (skip the current one)
+autodo -a : add new todo
+autodo -c : add comment to current
+autodo -d : deactivate current todo (check it off the list) 
+autodo -l : list all todos on file 
+
+
