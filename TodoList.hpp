@@ -12,29 +12,29 @@
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
 
-#include "XMLCursor.hpp"
-
-#include "rapidxml.hpp"
-#include "rapidxml_utils.hpp" // for parsing xml file
-#include "rapidxml_print.hpp"
+#include "pugixml.hpp"
+#include "MyTime.hpp"
 
 using namespace std;
-using namespace rapidxml;
+using namespace pugi;
 
 void CopyBlankAutodoFile(string fileName);
 
-string CharToString(char * in);
+int StringToInt(string in);
+
+string CharToString(const char_t* chs);
 
 class Todo{
 private:
   // This does not contain "active" or "id" since those are list qualities.
   string title;
+  string startdate;
   string duedate;
   vector<string> notes;
 public:
-  Todo(string tit, string due);
+  Todo(string tit, string sta, string due);
   void AddNote(string note);
-  void BuildXml(XmlCursor *);
+  void BuildXml(xml_node);
 };
 
 class TodoList {
@@ -42,10 +42,10 @@ private:
   // Strings to store file names.
   string fileName;
   string userName;
-  xml_document<> autodoList;
-  xml_document<> *autodoListP;
-  xml_node<> *user;
-  XmlCursor cursor;
+  
+  xml_document doc;
+  xml_node user;
+  
   // This reads the Todo List and fixes all IDs
   void RelodeList(string);
   map<int, int> IDMap;
@@ -53,24 +53,26 @@ private:
 public:
   TodoList(string, string);  // Takes in file name and loads it
   map<int, int> CleanList();
-  xml_node<> * GetUser(string u);
-
+  xml_node GetUser(string u);
+  
   void ChooseNewTodo();
   void LoadUser(string);
   void NewTodo();
   void AddComment();
   void WriteFile();
   void DeactivateCurrent();
-
+  
   void SetUserCurrent(int in);
   int GetUserCurrent();
-
+  
   void PrintCurrent();
   void PrintTodoByID(string id);
   void PrintAutodoList();
-  void PrintTodo(xml_node<> *todo);
-  void PrintInfoBox(xml_node<> *infobox);
-
+  void PrintAutodoListStartedAndActive();
+  void PrintAutodoListActiveAndDue(unsigned int plusNumDays);
+  void PrintTodo(xml_node todo);
+  void PrintInfoBox(xml_node infobox);
+  
   void AddTodo();
 };
 

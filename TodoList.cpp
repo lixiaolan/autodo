@@ -1,7 +1,7 @@
 #include "TodoList.hpp"
 
 void CopyBlankAutodoFile(string fileName) {
-  unsigned found = fileName.find_last_of("/");
+  unsigned int found = fileName.find_last_of("/");
   string blankFile = fileName.substr(0,found+1);
   blankFile = blankFile + "blankAutodo.xml";
   ifstream ifs(blankFile);
@@ -14,62 +14,64 @@ void CopyBlankAutodoFile(string fileName) {
   ofs.close();
 };
 
-string CharToString(char * in) {
+int StringToInt(string in) {
   stringstream ss;
   ss << in;
-  return ss.str();
+  int i;
+  ss >> i;
+  return i;
 };
 
-Todo::Todo(string tit, string due): title(tit), duedate(due) {};
+string CharToString(const char_t * chs) {
+  stringstream ss;
+  ss << chs;
+  return ss.str();
+}
+
+Todo::Todo(string tit,string sta, string due): title(tit), startdate(sta), duedate(due) {};
 
 void Todo::AddNote(string note) {
   notes.push_back(note);
 };
 
-void Todo::BuildXml(XmlCursor * cursor) {
-  cursor->SetNode(cursor->AddNode("todo"));
-  cursor->AddAttr("title",title);
-  cursor->AddAttr("duedate",duedate);
-  cursor->SetNode(cursor->AddNode("infobox"));
-  cursor->AddAttr("type","notes");
-  for (int i = 0; i < notes.size(); i++) {
-    cursor->AddNode("note");
+void Todo::BuildXml(xml_node n) {
+  xml_attribute attr;
+  n = n.append_child("todo");
+  attr = n.append_attribute("title");
+  attr.set_value(title.c_str());
+  attr = n.append_attribute("duedate");
+  attr.set_value(duedate.c_str());
+  attr = n.append_attribute("startdate");
+  attr.set_value(startdate.c_str());
+  n.append_attribute("location") = "";
+  n = n.append_child("infobox");
+  n.append_attribute("type") = "notes";
+  for (unsigned int i = 0; i < notes.size(); i++) {
+    n.append_child("note");
   }
-  cursor->first_node("note");
-  for (int i = 0; i < notes.size(); i++) {
-    cursor->AddAttr("text",notes[i]);
-    cursor->next_sibling("note");
+  n = n.child("note");
+  for (unsigned int i = 0; i < notes.size(); i++) {
+    attr = n.append_attribute("text");
+    attr.set_value(notes[i].c_str());
+    n = n.next_sibling("note");
   }
 };
 
 TodoList::TodoList(string a, string b) : fileName(a), userName(b) {
+  //TODO: make this use pugixml also:
   ifstream ifs(fileName);
-
   if (!(ifs)) {
     cout << endl;
     cout << "Cannot locate autodo.xml file..." << endl;
     cout << "Creating blank autodo.xml file in install directory..." << endl;
     CopyBlankAutodoFile(fileName);
     cout << "Done!" << endl << endl;
-    ifs.open(fileName);
   } 
+  ifs.close();
 
   // Generate the xml string manually since the built in functinos DO NOT work.
-  string xml;
-  string line;
-  
-  while (getline(ifs,line))
-    xml += line;
-
-  vector<char> xml_copy(xml.begin(), xml.end());
-  xml_copy.push_back('\0');
-  autodoList.parse<parse_declaration_node | parse_no_data_nodes>(&xml_copy[0]);
-  
-  autodoListP = &autodoList;
-  cursor.SetDoc(autodoListP);
-
+  doc.load_file(fileName.c_str());
   IDMap = CleanList();
-  ifs.close();
 
   // Load user in constructor
   user = GetUser(userName);
@@ -78,84 +80,112 @@ TodoList::TodoList(string a, string b) : fileName(a), userName(b) {
 
 map<int, int> TodoList::CleanList() {
   map<int, int> todoMap;
-  xml_attribute<> *attr;
   stringstream ss;
   int i = 0;
-  
-  for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
+  xml_attribute attr;
+
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
     ss.clear();
     ss.str(string());
-    if (cursor.HasAttr("id")) {
+    attr = n.attribute("id");
+    if (attr) {
       //Does not check for overlaping IDs
-      todoMap[cursor.GetAttrAsInt("id")] = i;
+      todoMap[StringToInt(n.attribute("id").value())] = i;
       ss << i;
-      cursor.SetAttr("id",ss.str());
+      n.attribute("id").set_value(ss.str().c_str());
     }
     else {
       ss << i;
-      cursor.AddAttr("id",ss.str());
+      attr = n.append_attribute("id");
+      attr.set_value(ss.str().c_str());
     }
-    if (!cursor.HasAttr("active")) {
-      cursor.AddAttr("active","true");
+    if (!n.attribute("active")) {
+      n.append_attribute("active") = "true";
     }
     i++;
   }
   return todoMap;
 };
 
-xml_node<> * TodoList::GetUser(string u) {
-  for (cursor.SetNode().first_node("user"); cursor.IsValad(); cursor.next_sibling("user")) {
-    if (cursor.first_attribute("name").attr_value() == u) {
-      return cursor.GetNode();  
+xml_node TodoList::GetUser(string u) {
+  for (xml_node n = doc.child("autodo").child("user"); n; n = n.next_sibling("user")) {
+    if (CharToString(n.attribute("name").value()) == u) {
+      return n;
     }
   }
-  return nullptr;
+  cout << "ERROR: Could not find user" << endl;
+  return user; 
 };
 
-void TodoList::PrintInfoBox(xml_node<> *infobox) {
+void TodoList::PrintInfoBox(xml_node infobox) {
   // Subfunction for printing todobox.
   // This should handle types "notes", "files" and "links" for now.
-  if (CharToString(infobox->first_attribute()->value()) == "notes") {
+  if (CharToString(infobox.attribute("type").value()) == "notes") {
     cout << "NOTES:\n";
-    for (xml_node<> *node = infobox->first_node("note"); node; node = node->next_sibling("note")) {
-      cout << node->first_attribute()->value() << endl;
+    for (xml_node n = infobox.child("note"); n; n = n.next_sibling("note")) {
+      cout << n.attribute("text").value() << endl;
     }
   }
 };
 
-void TodoList::PrintTodo(xml_node<> *todo) {
+void TodoList::PrintTodo(xml_node todo) {
   // This takes a pointer to a todo node in xml and prints it.
   
   // TODO: Include check to make sure pointer points to a todo node.
-
-  // Reads the attributes and prints relevant ones.
   // TODO: make the order of printing information fixed (title first, duedate second, etc...)
-  for (xml_attribute<> *attr = todo->first_attribute(); attr; attr = attr->next_attribute()) {    
-    if (CharToString(attr->name()) == "title") {
-      cout << "TITLE: "<< attr->value() << "\n";
-    }
-    if (CharToString(attr->name()) == "duedate") {
-      cout << "DUE: "<< attr->value() << "\n";
-    }
-  }
-  for (xml_node<> *node = todo->first_node("infobox"); node; node = node->next_sibling("infobox")) {
+  
+  xml_attribute attr = todo.attribute("title");
+  cout << "TITLE: "<< attr.value() << "\n";
+  attr = todo.attribute("duedate");
+  cout << "DUE: "<< attr.value() << "\n";
+
+  for (xml_node node = todo.child("infobox"); node; node = node.next_sibling("infobox")) {
     PrintInfoBox(node);
-    // xml_node<> *node = todo->first_node("infobox");
   }
 };
 
 void TodoList::PrintAutodoList() {
-  for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
     cout << endl;
-    PrintTodo(cursor.GetNode());
+    PrintTodo(n);
     cout << endl;
   }
 };
 
+void TodoList::PrintAutodoListStartedAndActive() {
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+    if (CharToString(n.attribute("active").value()) == "true") {
+      MyTime ST, T;
+      ST.setDate(CharToString(n.attribute("startdate").value()));
+      if (ST <= T) {
+	cout << endl;
+	PrintTodo(n);
+	cout << endl;
+      }
+    }
+  }
+};
+
+void TodoList::PrintAutodoListActiveAndDue(unsigned int plusNumDays) {
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+    if (CharToString(n.attribute("active").value()) == "true") {
+      MyTime DT;
+      MyTime T(plusNumDays);
+      string temp = CharToString(n.attribute("duedate").value());
+      DT.setDate(temp);
+      if ((DT <= T) && (temp != "")) {
+	cout << endl;
+	PrintTodo(n);
+	cout << endl;
+      }
+    }
+  }
+};
+
 void TodoList::PrintTodoByID(string id) {
-  for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
-    if (cursor.first_attribute("id").attr_value() == id) {
-      PrintTodo(cursor.GetNode());
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+    if (CharToString(n.attribute("id").value()) == id) {
+      PrintTodo(n);
     }
   }
 };
@@ -169,7 +199,7 @@ void TodoList::LoadUser(string u) {
 void TodoList::PrintCurrent() {
   if (user != nullptr) {
     cout << endl;
-    PrintTodoByID(CharToString(user->first_attribute("currentTodo")->value()));
+    PrintTodoByID(user.attribute("currentTodo").value());
     cout << endl;
   }
 };
@@ -177,26 +207,30 @@ void TodoList::PrintCurrent() {
 void TodoList::NewTodo() {
   string yet = "true";
   vector<string> ids;
-  for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
-    if (cursor.first_attribute("active").attr_value() == "true") {
-      ids.push_back(cursor.first_attribute("id").attr_value());
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+    if (CharToString(n.attribute("active").value())  == "true") {
+      MyTime ST, T;
+      ST.setDate(CharToString(n.attribute("startdate").value()));
+      if (ST <= T) {
+	ids.push_back(n.attribute("id").value());
+      }
     } 
   }
   if (ids.size() > 1) {
     srand ( unsigned ( time(0) ) );
     random_shuffle ( ids.begin()+1, ids.end() );
-    cursor.SetNode(user).SetAttr("currentTodo",ids[1]);
+    user.attribute("currentTodo").set_value(ids[1].c_str());
   } else {
-    cursor.SetNode(user).SetAttr("currentTodo","0");
+    user.attribute("currentTodo").set_value("0");
   }
 };
 
 void TodoList::DeactivateCurrent() {
   if (user != nullptr) {
-    string id = CharToString(user->first_attribute("currentTodo")->value());
-    for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
-      if (cursor.first_attribute("id").attr_value() == id && cursor.first_attribute("id").attr_value() != "0") {
-	cursor.SetAttr("active","false");
+    string id = user.attribute("currentTodo").value();
+    for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+      if (CharToString(n.attribute("id").value()) == id && CharToString(n.attribute("id").value()) != "0") {
+	n.attribute("active").set_value("false");
       }
     }
   }
@@ -205,7 +239,7 @@ void TodoList::DeactivateCurrent() {
 int TodoList::GetUserCurrent() {
   stringstream ss;
   int out;
-  ss << user->first_attribute("currentTodo")->value();
+  ss << user.attribute("currentTodo").value();
   ss >> out;
   return out;
 };
@@ -213,25 +247,24 @@ int TodoList::GetUserCurrent() {
 void TodoList::SetUserCurrent(int in) {
   stringstream ss;
   ss << in;
-  cursor.SetNode(user).SetAttr("currentTodo", ss.str());
+  user.attribute("currentTodo").set_value(ss.str().c_str());
 };
 
 void TodoList::WriteFile() {
-  ofstream ofs;
-  ofs.open(fileName);
-  ofs << autodoList;
-  ofs.close();
+  doc.save_file(fileName.c_str());
 };
 
 void TodoList::AddTodo() {
-  string in1, in2;
+  string tit, sta, due;
   
   cout << "Title: ";
-  getline(cin, in1);
-  cout << "Duedate: ";
-  getline(cin, in2);
-  Todo T(in1, in2);
-  in1 = "dumb";
+  getline(cin, tit);
+  cout << "Start: ";
+  getline(cin, sta);
+  cout << "Due: ";
+  getline(cin, due);
+  Todo T(tit, sta, due);
+  string in1 = "dumb";
   while (in1 != "") {
     cout << "comment: ";
     getline(cin, in1);
@@ -239,8 +272,7 @@ void TodoList::AddTodo() {
     T.AddNote(in1);
   }
 
-  cursor.SetNode();
-  T.BuildXml(&cursor);
+  T.BuildXml(doc.child("autodo"));
 
   IDMap = CleanList();
   user = GetUser(userName);
@@ -248,19 +280,34 @@ void TodoList::AddTodo() {
 };
 
 void TodoList::AddComment() {
-  string in;
-  cout << "comment: ";
-  getline(cin, in);
-  
-  string id = CharToString(user->first_attribute("currentTodo")->value());  
-  
-  for (cursor.SetNode().first_node("todo"); cursor.IsValad(); cursor.next_sibling("todo")) {
-    if (cursor.first_attribute("id").attr_value() == id) break;
+
+  vector<string> notes;
+  string in = "dumb";
+
+  while (in != "") {
+    cout << "comment: ";
+    getline(cin, in);
+    if (in == "") break;
+    notes.push_back(in);
   }
-  for (cursor.first_node("infobox"); cursor.IsValad(); cursor.next_sibling("infobox")) {
-    if (cursor.first_attribute("type").attr_value() == "notes") break;
-  }
-  
-  cursor.SetNode(cursor.AddNode("note"));
-  cursor.AddAttr("text", in);
+
+  xml_attribute attr;
+  xml_node temp;
+  string id = user.attribute("currentTodo").value();  
+  for (xml_node n = doc.child("autodo").child("todo"); n; n = n.next_sibling("todo")) {
+    if (CharToString(n.attribute("id").value()) == id) {
+      for (xml_node m = n.child("infobox"); m; m.next_sibling("infobox")) {
+	if (CharToString(m.attribute("type").value()) == "notes") {	  
+	  for (unsigned int i = 0; i < notes.size(); i++) {
+	    temp = m.append_child("note");
+	    attr = temp.append_attribute("text");
+	    attr.set_value(notes[i].c_str());
+	  }
+	  goto mylabel;
+	};
+      }
+    }
+  } 
+ mylabel:
+  return;
 };

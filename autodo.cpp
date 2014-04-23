@@ -1,4 +1,6 @@
 #include "TodoList.hpp"
+#include "AutodoVersionUpdate.hpp"
+#include "MyTime.hpp"
 
 int main(int argc, char *argv[]) {
   stringstream ss;
@@ -9,11 +11,13 @@ int main(int argc, char *argv[]) {
   string currPath = currFile.substr(0,found+1);
   currPath = currPath + "autodo.xml";
 
+  AutodoVersionUpdate(currPath);
   TodoList autodoList(currPath,"leland");
-
+  
   for (int i = 1; i < argc; i++) {
     ss << argv[i] << " ";
   }
+  
   ss >> s;
  
   if ( s == "-a" || s == "--add") {
@@ -30,7 +34,12 @@ int main(int argc, char *argv[]) {
   }
 
   if (s == "-l" || s == "--list") {
-    autodoList.PrintAutodoList();    
+    unsigned u;
+    if (ss >> u) {
+      autodoList.PrintAutodoListActiveAndDue(u);
+    } else {
+      autodoList.PrintAutodoListStartedAndActive();
+    }
   }
 
   if (s == "-n" || s == "--next") {

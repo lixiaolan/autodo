@@ -10,13 +10,19 @@ ROOT = /Users/qile/Documents/programming/projects/Autodo/
 #(Not needed here)
 
 #Define the rules in the dependancy tree :
-autodo : $(ROOT)autodo.cpp TodoList.o XMLCursor.o
+autodo : $(ROOT)autodo.cpp TodoList.o AutodoVersionUpdate.o pugixml.o MyTime.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
-TodoList.o : TodoList.cpp TodoList.hpp XMLCursor.o
+TodoList.o : TodoList.cpp TodoList.hpp pugixml.o MyTime.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-XMLCursor.o : XMLCursor.cpp XMLCursor.hpp
+AutodoVersionUpdate.o : AutodoVersionUpdate.cpp AutodoVersionUpdate.hpp pugixml.o
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+pugixml.o : pugixml.cpp pugixml.hpp pugiconfig.hpp
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+MyTime.o : MyTime.cpp MyTime.hpp
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 #Notes: $@ means "lhs of : ",

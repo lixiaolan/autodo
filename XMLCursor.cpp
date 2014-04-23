@@ -20,22 +20,25 @@ string XmlCursor::XmlCursorCharToString(char * in) {
 };
 
 bool XmlCursor::HasAttr(string at) {
-  attr = node->first_attribute(at.c_str());
+  char *c = doc->allocate_string(at.c_str());
+  attr = node->first_attribute(c);
   return !(attr==nullptr);
 };
 
 int XmlCursor::GetAttrAsInt(string name) {
   int i;
   stringstream ss;
-  attr = node->first_attribute(name.c_str());
+  char *c = doc->allocate_string(name.c_str());
+  attr = node->first_attribute(c);
   ss << attr->value();
   ss >> i;
   return i;
 };
 
 void XmlCursor::SetAttr(string n, string v) {
-  char *name = doc->allocate_string(v.c_str());
-  node->first_attribute(n.c_str())->value(name);
+  char *valueName = doc->allocate_string(v.c_str());
+  char *nameName = doc->allocate_string(n.c_str());
+  node->first_attribute(nameName)->value(valueName);
 };
 
 xml_node<> * XmlCursor::AddNode(string type) {
@@ -46,10 +49,10 @@ xml_node<> * XmlCursor::AddNode(string type) {
 };
 
 void XmlCursor::AddAttr(string att, string val) {
-  char * n = doc->allocate_string(val.c_str());
-  char * a = doc->allocate_string(att.c_str());
-  attr = doc->allocate_attribute(a, n);
-  node->append_attribute(attr);
+  char *n = doc->allocate_string(val.c_str());
+  char *a = doc->allocate_string(att.c_str());
+  xml_attribute<> * at = doc->allocate_attribute(a, n);
+  node->append_attribute(at);
 };
 
 XmlCursor & XmlCursor::first_node() {
@@ -58,7 +61,8 @@ XmlCursor & XmlCursor::first_node() {
 };
 
 XmlCursor & XmlCursor::first_node(string name) {
-  node = node->first_node(name.c_str());
+  char *c = doc->allocate_string(name.c_str());
+  node = node->first_node(c);
   return *this;
 };
 
@@ -68,7 +72,8 @@ XmlCursor & XmlCursor::next_sibling() {
 };
 
 XmlCursor & XmlCursor::next_sibling(string name) {
-  node = node->next_sibling(name.c_str());
+  char *c = doc->allocate_string(name.c_str());
+  node = node->next_sibling(c);
   return *this;
 };
 
@@ -78,7 +83,8 @@ XmlCursor & XmlCursor::first_attribute() {
 };
 
 XmlCursor & XmlCursor::first_attribute(string name) {
-  attr = node->first_attribute(name.c_str());
+  char *c = doc->allocate_string(name.c_str());
+  attr = node->first_attribute(c);
   return *this;
 };
 
