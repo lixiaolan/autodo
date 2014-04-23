@@ -1,27 +1,305 @@
-<autodo>
-	<user name="leland" location="all" currentTodo="3"/>
-	<todo id="0" title="DO WHAT YOU WANT!" duedate="20140505" active="true">
+<?xml version="1.0"?>
+<autodo version="2">
+	<user name="leland" location="all" currentTodo="29" />
+	<todo title="DO WHAT YOU WANT!" duedate="" active="true" id="0" startdate="" location="">
 		<infobox type="notes">
-			<note text="There is always something to do!"/>
+			<note text="There is always something to do!" />
 		</infobox>
 	</todo>
-	<todo id="1" title="GO TO EUROPE" duedate="20140525" active="true">
+	<todo title="Email Antonio Ache" duedate="" id="1" active="false" startdate="" location="">
 		<infobox type="notes">
-			<note text="Pack your stuff"/>
-			<note text="You are going to Barcelona"/>
+			<note text="tonyache@gmail.com" />
+			<note text="Thanks for the NSF help!" />
 		</infobox>
 	</todo>
-	<todo id="2" title="DEFEND YOUR THESIS" duedate="20140505" active="true">
+	<todo title="Turn in warrent paper work!" duedate="20140415" id="2" active="false" startdate="" location="">
 		<infobox type="notes">
-			<note text="Don't forget your dongle"/>
-			<note text="Don't fuck up."/>
+			<note text="Give it to kathie keyes or put it in L. Smith's box?" />
+			<note text="This needs to be done now!" />
+			<note text="Check your email about this..." />
 		</infobox>
 	</todo>
-	<todo title="TAKE A DUMP" duedate="20140507" active="true" id="3">
+	<todo title="Email Papnicolaou, Goldsmith, and Hagedorn" duedate="" id="3" active="true" startdate="" location="">
 		<infobox type="notes">
-			<note text="Don't forget your dongle"/>
-			<note text="Let it all out!"/>
+			<note text="Thanks for NSF letters" />
+			<note text="Let Goldsmith, Goldsmith and Hagedorn know you got the official offer." />
+			<note text="Letters are drafed in NSF directory. Review later and send." />
+			<note text="Should I actually mention collaborations with Hagedorn? " />
+			<note text="Sounds a bit needy... keep this note simple?" />
+		</infobox>
+	</todo>
+	<todo title="Reserve a room for your thesis defense" duedate="" id="4" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="Get room 901" />
+			<note text="Time is 8:00am" />
+			<note text="Day is May, 5th" />
+			<note text="Give the paper to someone on floor 2..." />
+		</infobox>
+	</todo>
+	<todo title="Draft email for resubmission" duedate="" id="5" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Send the draft to the Jin first." />
+			<note text="You can suggest Hagedorn as a reviewer." />
+		</infobox>
+	</todo>
+	<todo title="Revise the convergence paper" duedate="" id="6" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="You need to make the propigation notation clear (according to jin)." />
+			<note text=" Add remark about e^{tK} notation." />
+			<note text="Remark 3.12 and remark 3.16 address the issue." />
+		</infobox>
+	</todo>
+	<todo title="Finish Drafting thesis" duedate="20140421" id="7" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Needs to be readable to send to committee." />
+			<note text="Make sure &quot;paper \ref{}&quot; becomes &quot;chapter&quot;" />
+			<note text="Perhaps get rid of the painting. Sad." />
+			<note text="Put all of the appendices at the end of the whole document." />
+			<note text="Proof read intro again." />
+		</infobox>
+	</todo>
+	<todo title="Make slides" duedate="20140427" id="8" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Send them to Jin. for review." />
+			<note text="I added an outline in the tex file in comments" />
+			<note text="I created a new folder to hold the presention inside Thesis" />
+			<note text="Put all slides in place. Read through and clean next." />
+			<note text="You need to time out your talk and take notes." />
+			<note text="Make the following adjustments:" />
+			<note text="-Add Convergence results" />
+			<note text="-Add proper references" />
+			<note text="-Locate your matlab movie and output to video." />
+			<note text="Check the overview slide!" />
+			<note text="Add conclusions" />
+			<note text="check size of the convergence plot." />
+			<note text="make sure references look ok" />
+		</infobox>
+	</todo>
+	<todo title="Grade HW" duedate="20140415" id="9" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Enter grades and such." />
+			<note text="Grade at most 2 problems." />
+			<note text="give them back on monday!" />
+			<note text="only one more stack then enter!" />
+			<note text="I have already put the papers in alpha beta." />
+			<note text="There is one paper with no name :(" />
+		</infobox>
+	</todo>
+	<todo title="Write quiz" duedate="" id="10" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Remind students with email!" />
+			<note text="Use Ch5 sec 1-3 for inspiration." />
+		</infobox>
+	</todo>
+	<todo title="Email Qin" duedate="" id="11" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Did she get those notes you sent?" />
+		</infobox>
+	</todo>
+	<todo title="Code bug" duedate="" id="12" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Code renames head node" />
+			<note text="Long comments are problem" />
+		</infobox>
+	</todo>
+	<todo title="Buy books" duedate="20140515" id="13" active="true" startdate="20140506" location="">
+		<infobox type="notes">
+			<note text="You at least want the waves in rando media one." />
+			<note text="Get a good book on linear algebra?" />
+			<note text="And programming books too!" />
+			<note text="You should ask the Pap. for suggestions here..." />
+		</infobox>
+	</todo>
+	<todo title="Pay the bills!" duedate="20140416" id="14" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="I think mg and e is one?" />
+			<note text="Actually its for water and sewer. Pay it!" />
+		</infobox>
+	</todo>
+	<todo title="Tell katie check amount" duedate="" id="15" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="She owes you half of rent and the plane ticket difference." />
+		</infobox>
+	</todo>
+	<todo title="Send parrents passport number!" duedate="20140530" id="16" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Number is:439895653" />
+			<note text="Leland James Jefferis" />
+			<note text="expires 29 April 2018" />
+		</infobox>
+	</todo>
+	<todo title="Write and send letter!" duedate="20140530" id="17" active="true" startdate="20140506" location="">
+		<infobox type="notes">
+			<note text="Make sure to sketch something cool" />
+			<note text="talk about the super winter!" />
+		</infobox>
+	</todo>
+	<todo title="Print quizzes" duedate="20140417" id="18" active="false" startdate="" location="">
+		<infobox type="notes" />
+	</todo>
+	<todo title="Figure out Cell Phone for Europe" duedate="20140525" id="19" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="I wan't maps and email and perhaps phone calling too!" />
+			<note text="Ask some Europeans in the department for advice." />
+			<note text="Ask Lalit also... he has traveled a lot!" />
+		</infobox>
+	</todo>
+	<todo title="Reply to Cristel" duedate="" id="20" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Make sure you take some notes on the living suggestions" />
+		</infobox>
+	</todo>
+	<todo title="Feed the cat" duedate="20140415" id="21" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Stuff him full of food!" />
+			<note text="He meows too much :(" />
+		</infobox>
+	</todo>
+	<todo title="Get Eye Appointment" duedate="20140525" id="22" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Steinhauer Family Eye Clinic" />
+			<note text="Phone: 608 255 6407" />
+			<note text="hours: 8-5 weekdays" />
+			<note text="appointment: Next week friday 8:00 am 20140425" />
+		</infobox>
+	</todo>
+	<todo title="Upload scans of all quizzes and mid solutions" duedate="" id="23" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Ask Q-Dong if its ok to post exam solutions." />
+			<note text="email: kchoi" />
+		</infobox>
+	</todo>
+	<todo title="Send resubmitted paper to KRM" duedate="" id="24" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="Wait for Jin's comments" />
+			<note text="Email: Radjesvarane Alexandre &lt;alexandreradja@gmail.com&gt;" />
+		</infobox>
+	</todo>
+	<todo title="Send lena bday message!" duedate="20140417" id="25" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Send a note!" />
+			<note text="Send a gift later" />
+		</infobox>
+	</todo>
+	<todo title="Send lena bday gift" duedate="20140506" id="26" active="true" startdate="20140506" location="">
+		<infobox type="notes">
+			<note text="flowers?" />
+			<note text="Baby stuff?" />
+			<note text="Something to do with canning..." />
+		</infobox>
+	</todo>
+	<todo title="Update Autodo" duedate="" id="27" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Create config file" />
+			<note text="Create make file" />
+			<note text="Adjust the .gitignore file to exclude any .xml" />
+			<note text="The config file should contain the file path and user name" />
+			<note text="All problmes have been addressed" />
+		</infobox>
+	</todo>
+	<todo title="Add conclusion to Chapter 3 of Thesis" duedate="20140420" id="28" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Make sure the abstract is there also." />
+		</infobox>
+	</todo>
+	<todo title="Proof read Thesis Draft!" duedate="20140421" id="29" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="Check intro most of all" />
+			<note text="Make sure that chapter and appendix refs are all correct." />
+			<note text="Proof read the introduction.tex." />
+			<note text="Proof read again at a later time..." />
+		</infobox>
+	</todo>
+	<todo title="Move all xml handeling into XMLCursor class" duedate="" id="30" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Right now, some code (parsing a file, for instance) is still in  other objects..." />
+			<note text="Spent too much time coding today already" />
+			<note text="I'll do this later" />
+		</infobox>
+	</todo>
+	<todo title="Go to eye appointment" duedate="20140425" id="31" active="true" startdate="20140505" location="">
+		<infobox type="notes">
+			<note text="Time: 8:00 am." />
+			<note text="P+ usually covers one exam per year." />
+			<note text="Normal price is $116 for an exam" />
+			<note text="1 box of contacts (3 pairs) is about $30." />
+		</infobox>
+	</todo>
+	<todo title="Deposit katies check" duedate="" id="32" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Its on the table at home." />
+		</infobox>
+	</todo>
+	<todo title="Check your NSF materials for deadliens!" duedate="20140420" id="33" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Specifically look for paperwork that may be due." />
+			<note text="Need a Ph.D. Verification letter certification" />
+			<note text="Fellowship Starting Certificate, NSF Form 349" />
+			<note text="FastStart Direct Deposit Form, NSF Form 1379" />
+			<note text="A form to request this advance, Request for Stipend Advance, NSF Form 929," />
+			<note text="These forms are supposed to be provided... when? Don't know..." />
+			<note text="Ahh! All forms are at the bottome of the handbook!" />
+			<note text="I have copied all froms into forms directory in NSF" />
+			<note text="Main Deadline is the Ph. D. letter thing... no onfo on this." />
+		</infobox>
+	</todo>
+	<todo title="PAsk Someone about Ph.D. Verification Letter certification" duedate="20140510" id="34" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="See the handbook about this. I am supposed to get a form ?" />
+			<note text="Or, do I just send a transcript? If so, where?" />
+		</infobox>
+	</todo>
+	<todo title="Ask Stanford admin exactly what they need from me" duedate="20140510" id="35" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="Should I send them the stipend advance?" />
+			<note text="Should I send my official letter thing?" />
+		</infobox>
+	</todo>
+	<todo title="Organize all your loose papers." duedate="20140420" id="36" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Its out of controll." />
+		</infobox>
+	</todo>
+	<todo title="Email John C." duedate="" id="37" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Let him know your Stanford plans." />
+		</infobox>
+	</todo>
+	<todo title="Upload Quizzes and Solutions" duedate="" id="38" active="true" startdate="" location="">
+		<infobox type="notes">
+			<note text="Check about midterm solution uploading... (kchoi)" />
+		</infobox>
+	</todo>
+	<todo title="Reply to David Neel" duedate="" id="39" active="false" startdate="" location="">
+		<infobox type="notes">
+			<note text="Not sure how to reply just yet..." />
+		</infobox>
+	</todo>
+	<todo title="Fold the rest of your laundry" duedate="20140421" startdate="" location="" id="40" active="true">
+		<infobox type="notes">
+			<note text="Or else" />
+		</infobox>
+	</todo>
+	<todo title="Defend your thesis" duedate="20140505" startdate="20140504" location="" id="41" active="true">
+		<infobox type="notes">
+			<note text="Rock it!" />
+		</infobox>
+	</todo>
+	<todo title="Figure out cell for europe" duedate="20140525" startdate="20140506" location="" id="42" active="true">
+		<infobox type="notes">
+			<note text="Look into votaphone" />
+			<note text="Figure out charger situation" />
+		</infobox>
+	</todo>
+	<todo title="Reply to Sylvester" duedate="20140525" startdate="20140422" location="" id="43" active="true">
+		<infobox type="notes">
+			<note text="Sent to gmail. Just reply!" />
+		</infobox>
+	</todo>
+	<todo title="Proof read slides" duedate="20140426" startdate="20140422" location="" id="44" active="true">
+		<infobox type="notes">
+			<note text="Add conclusions." />
+			<note text="Read over all slides and practice your talk." />
 		</infobox>
 	</todo>
 </autodo>
-

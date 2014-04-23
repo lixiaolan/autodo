@@ -7,6 +7,21 @@ void AutodoVersionUpdate(string fileName) {
   // Load up the document.
   // TODO: make sure the file exists.......
 
+  ifstream ifs(fileName);
+  if (!ifs) {
+    unsigned found = fileName.find_last_of("/");
+    string blankFileName = fileName.substr(0,found+1);
+    blankFileName += "blankAutodo.xml";
+    ifs.open(blankFileName);
+    ofstream ofs(fileName);
+    string line;
+    while (getline(ifs, line)) {
+      ofs << line;
+    }
+    ofs.close();
+  }
+  ifs.close();
+
   xml_document doc;
   doc.load_file(fileName.c_str());
   xml_node n = doc.child("autodo");
